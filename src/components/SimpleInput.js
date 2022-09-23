@@ -1,13 +1,23 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 
 const SimpleInput = (props) => {
   const nameInputRef = useRef();
   const [enteredName, setEnteredName] = useState('');
   const [enteredNameTouch, setEnteredNameTouched] = useState(false);
+  const [formIsValid, setFormIsValid] = useState(false);
 
   const enteredNameIsValid = enteredName.trim() !== '';
   const nameInputIsInvalid = !enteredNameIsValid && enteredNameTouch;
+
+  useEffect(() => {
+    if (enteredNameIsValid) {
+      setFormIsValid(true);
+    } else {
+      setFormIsValid(false)
+    }
+
+  }, [enteredNameIsValid]);
 
 
   const nameInputChangeHandler = event => {
@@ -30,7 +40,7 @@ const SimpleInput = (props) => {
     setEnteredName('');
 
     console.log(enteredName);
-    // after hitting submit button it will be brand new form and wont receive errors on input
+    // after hitting submit button it will be brand new form and wont receive errors on
     setEnteredNameTouched(false);
 
   };
@@ -54,7 +64,7 @@ const SimpleInput = (props) => {
         {nameInputIsInvalid && (<p className='error-text'>Name must not be empty</p>)}
       </div>
       <div className="form-actions">
-        <button>Submit</button>
+        <button disabled={!formIsValid}>Submit</button>
       </div>
     </form>
   );
