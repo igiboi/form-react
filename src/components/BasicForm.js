@@ -37,18 +37,19 @@ const BasicForm = (props) => {
   let formIsValid = false;
 
     if (enteredFirstNameIsValid && enteredEmailIsValid && enteredLastNameIsValid) {
-      formIsValid(true);
+      formIsValid = true;
     } 
 
 
   const formSubmissionHandler = event => {
     event.preventDefault();
 
-    if (!enteredFirstNameIsValid&& !enteredEmailIsValid && !enteredLastNameIsValid) {
+    if (!formIsValid) {
       return;
     }
 
-    // console.log(enteredName);
+    console.log('Submitted');
+    console.log(enteredFirstName, enteredLastName, enteredEmail)
     // after hitting submit button it will be brand new form and wont receive errors on
     resetFirstNameInput();
     resetLastNameInput();
@@ -96,7 +97,8 @@ const BasicForm = (props) => {
       </div>
       <div className={emailInputClasses}>
         <label htmlFor='name'>E-Mail Address</label>
-        <input     type='text' id='name' 
+        <input    
+         type='text' id='name' 
           onChange={emailChangedHandler} 
           onBlur={emailBlurHandler}
           value={enteredEmail}
@@ -104,7 +106,7 @@ const BasicForm = (props) => {
         {emailInputHasError  && (<p className='error-text'>Email must not be empty and have a @</p>)}
       </div>
       <div className='form-actions'>
-        <button>Submit</button>
+        <button disabled={!formIsValid}>Submit</button>
       </div>
     </form>
   );
